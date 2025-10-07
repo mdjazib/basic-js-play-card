@@ -67,7 +67,7 @@ body .player {
 }
 
 body .player .disc {
-  background-image: url("/public/disc.png");
+  background-image: url("public/disc.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
