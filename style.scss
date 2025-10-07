@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+@mixin flex($j: center, $a: center, $d: column, $g: 5px) {
+    display: flex;
+    justify-content: $j;
+    align-items: $a;
+    flex-direction: $d;
+    gap: $g;
+}
+
+body {
+    transition: .2s ease;
+    background: linear-gradient(#f3395b, #131313 60%);
+    @include flex();
+    height: 100svh;
+    padding: 20px;
+
+    @keyframes glowMove {
+        0% {
+            background-position-y: -500px;
+        }
+
+        100% {
+            background-position-y: -300px;
+        }
+    }
+
+    .player {
+        width: 100%;
+        max-width: 400px;
+        @include flex($g: 20px);
+
+        .disc {
+            background-image: url("/public/disc.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            width: 150px;
+            height: 150px;
+            @include flex();
+            position: relative;
+
+            .album {
+                position: absolute;
+
+                img {
+                    width: 60px;
+                    height: 60px;
+                    object-fit: cover;
+                    border-radius: 100px;
+                    filter: grayscale(100%);
+                }
+            }
+        }
+
+        .title {
+            @include flex($g:10px);
+            color: #b0b0b0;
+
+            p {
+                color: #707070;
+                font-size: clamp(10px, 3vw, 12px);
+            }
+
+            h5 {
+                font-size: clamp(10px, 3vw, 14px);
+            }
+        }
+
+        .timeline {
+            width: 100%;
+            @include flex($g: 14px);
+
+            .sp {
+                width: 100%;
+                @include flex($j: space-between, $d: row);
+                color: #b0b0b0;
+                font-size: 13px;
+            }
+
+            .bar {
+                width: 100%;
+                height: 5px;
+                border-radius: 100px;
+                background: #f3395b1f;
+
+                .progress {
+                    background: #f3395b;
+                    border-radius: inherit;
+                    width: 20%;
+                    height: inherit;
+                }
+            }
+        }
+
+        .controls {
+            @include flex($d: row, $g: 28px);
+
+            >div {
+                transition: .2s ease;
+                cursor: pointer;
+
+                &:hover {
+                    scale: 1.1;
+                }
+            }
+
+            .play {
+                border-radius: 100px;
+                background: #f3395b1f;
+                width: 50px;
+                height: 50px;
+                border-radius: 100px;
+                @include flex();
+
+                svg {
+                    color: #f3395b;
+                    width: 28px;
+                    height: 28px;
+                }
+            }
+
+            .prev,
+            .next {
+                svg {
+                    color: #9c9c9c;
+                    width: 18px;
+                    height: 18px;
+                }
+            }
+        }
+    }
+
+    &[aria-disabled="false"] {
+        background-size: 100% 200%;
+        animation: glowMove 4s ease-in-out infinite alternate;
+
+        .player {
+            .disc {
+                animation: playing 14s linear infinite;
+                transform-origin: center;
+
+                @keyframes playing {
+                    100% {
+                        rotate: 360deg;
+                    }
+                }
+            }
+        }
+    }
+}
